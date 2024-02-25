@@ -62,10 +62,12 @@ func (a *ApiServer) Start() error {
 	return http.ListenAndServe(a.port, router)
 }
 
+// HealthCheck will return a 200 OK response.
 func (a *ApiServer) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
+// respondWithJSON will respond with a JSON payload and a non-error status code
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
 	w.Header().Set("Content-Type", "application/json")
@@ -73,6 +75,7 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Write(response)
 }
 
+// respondWithError will respond with a JSON payload and an error status code
 func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
