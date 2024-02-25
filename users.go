@@ -87,7 +87,15 @@ func (a *ApiServer) getUser(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	respondWithJSON(w, http.StatusOK, result)
+	var userResponse = struct {
+		ID   uuid.UUID `json:"id"`
+		Name string    `json:"name"`
+	}{
+		ID:   result.ID,
+		Name: result.Name,
+	}
+
+	respondWithJSON(w, http.StatusOK, userResponse)
 	a.slog.Info("User retrieved", "name", params.Name)
 	return nil
 }

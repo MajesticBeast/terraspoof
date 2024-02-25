@@ -21,6 +21,8 @@ type ApiServer struct {
 
 type apiFunc func(w http.ResponseWriter, r *http.Request) error
 
+// makeHTTPHandler will create an HTTP handler for the specified API function. This is used to handle errors returned
+// from the HTTP handlers.
 func (a *ApiServer) makeHTTPHandler(f apiFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := f(w, r); err != nil {
@@ -29,6 +31,7 @@ func (a *ApiServer) makeHTTPHandler(f apiFunc) http.HandlerFunc {
 	}
 }
 
+// NewApiServer will create a new API server with the specified port, logger, and database connection.
 func NewApiServer(port string, slog *slog.Logger, db *database.Queries) *ApiServer {
 	return &ApiServer{
 		port: port,
@@ -37,6 +40,7 @@ func NewApiServer(port string, slog *slog.Logger, db *database.Queries) *ApiServ
 	}
 }
 
+// Start will start the API server and listen on the specified port.
 func (a *ApiServer) Start() error {
 
 	// Create routers and subrouters
@@ -56,6 +60,7 @@ func (a *ApiServer) Start() error {
 	userRouter.HandleFunc("/create", a.makeHTTPHandler(a.createUser)).Methods("POST")
 	userRouter.HandleFunc("/delete", a.makeHTTPHandler(a.deleteUser)).Methods("DELETE")
 	userRouter.HandleFunc("/get", a.makeHTTPHandler(a.getUser)).Methods("GET")
+	userRouter.HandleFunc("/login", a.makeHTTPHandler(a.login)).Methods("POST")
 
 	// Start the server
 	a.slog.Info("Server listening on " + a.port)
