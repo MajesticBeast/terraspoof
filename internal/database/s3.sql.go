@@ -54,3 +54,21 @@ func (q *Queries) DeleteS3(ctx context.Context, bucket string) error {
 	_, err := q.db.ExecContext(ctx, deleteS3, bucket)
 	return err
 }
+
+const getS3 = `-- name: GetS3 :one
+SELECT id, bucket, tags, bucket_domain_name, created_at FROM s3
+WHERE bucket = $1
+`
+
+func (q *Queries) GetS3(ctx context.Context, bucket string) (S3, error) {
+	row := q.db.QueryRowContext(ctx, getS3, bucket)
+	var i S3
+	err := row.Scan(
+		&i.ID,
+		&i.Bucket,
+		&i.Tags,
+		&i.BucketDomainName,
+		&i.CreatedAt,
+	)
+	return i, err
+}

@@ -6,3 +6,7 @@ RETURNING *;
 -- name: DeleteS3 :exec
 DELETE FROM s3
 WHERE bucket = $1;
+
+-- name: GetS3 :one
+SELECT * FROM s3
+WHERE bucket = $1;

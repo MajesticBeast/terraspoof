@@ -17,3 +17,12 @@ type S3 struct {
 	BucketDomainName string
 	CreatedAt        time.Time
 }
+
+type User struct {
+	ID        uuid.UUID
+	Name      string
+	Password  string
+	ApiKey    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
