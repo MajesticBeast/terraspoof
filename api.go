@@ -24,12 +24,6 @@ type apiFunc func(w http.ResponseWriter, r *http.Request) error
 func (a *ApiServer) makeHTTPHandler(f apiFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := f(w, r); err != nil {
-			//var code int
-			//switch {
-			//case errors.Is(err, ErrBucketExists):
-			//	code = http.StatusConflict
-			//}
-			//http.Error(w, err.Error(), code)
 			a.slog.Error(err.Error())
 		}
 	}

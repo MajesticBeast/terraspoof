@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// This endpoint will add an entry to the s3 table.
+// createS3Bucket will add an entry to the s3 table.
 func (a *ApiServer) createS3Bucket(w http.ResponseWriter, r *http.Request) error {
 	var params struct {
 		Bucket string `json:"bucket"`
@@ -39,7 +39,7 @@ func (a *ApiServer) createS3Bucket(w http.ResponseWriter, r *http.Request) error
 	return nil
 }
 
-// This endpoint will delete an entry from the s3 table.
+// deleteS3Bucket will delete an entry from the s3 table.
 func (a *ApiServer) deleteS3Bucket(w http.ResponseWriter, r *http.Request) error {
 	var params struct {
 		Bucket string `json:"bucket"`
@@ -58,7 +58,7 @@ func (a *ApiServer) deleteS3Bucket(w http.ResponseWriter, r *http.Request) error
 	return nil
 }
 
-// This endpoint will get the information of a specific s3 bucket.
+// getS3Bucket will get the information of a specific s3 bucket.
 func (a *ApiServer) getS3Bucket(w http.ResponseWriter, r *http.Request) error {
 	var params struct {
 		Bucket string `json:"bucket"`
